@@ -39,7 +39,7 @@ namespace Infra.Map
 
             builder.HasOne(u => u.Address)
                 .WithOne(a => a.User)
-                .HasForeignKey("AddressId");
+                .HasForeignKey<Address>("UserId");
 
             builder.Property(u => u.LastLoginAt)
                 .HasColumnType("date");

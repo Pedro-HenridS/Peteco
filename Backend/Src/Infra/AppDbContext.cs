@@ -8,7 +8,6 @@ namespace Infra
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
-
         public DbSet<User> Users { get; set; }
         public DbSet<AdoptionRequest> AdoptionRequest { get; set; }
         public DbSet<AnimalPhoto> AnimalPhoto { get; set; }
@@ -18,5 +17,13 @@ namespace Infra
         public DbSet<Vaccine> Vaccine { get; set; }
         public DbSet<Institution> Institution { get; set; }
         public DbSet<Address> Adress { get; set; }
+
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
+        }
     }
 }

@@ -60,7 +60,7 @@ namespace Infra.Map
 
             builder.HasMany(d => d.Photos)
                 .WithOne(d => d.Dog)
-                .HasForeignKey(d => d.Dog);
+                .HasForeignKey(d => d.AnimalId);
 
             builder.HasIndex(d => d.Name);
         }

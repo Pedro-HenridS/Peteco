@@ -8,7 +8,7 @@ namespace Infra.Map
     {
         public void Configure(EntityTypeBuilder<AnimalVaccine> builder)
         {
-            builder.ToTable("AnimalVaccine");
+            builder.ToTable("AnimalVaccines");
 
             builder.HasKey(av => av.Id);
 
@@ -33,6 +33,10 @@ namespace Infra.Map
             builder.Property(av => av.UpdatedAt)
                 .IsRequired()
                 .HasColumnType("date");
+
+            builder.HasIndex(av => new { av.AnimalId, av.VaccineId, av.VaccinedAt })
+                .IsUnique();
+
         }
     }
 }

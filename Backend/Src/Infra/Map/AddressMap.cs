@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infra.Map
 {
-    public class AdressMap : IEntityTypeConfiguration<Address>
+    public class AddressMap : IEntityTypeConfiguration<Address>
     {
         public void Configure(EntityTypeBuilder<Address> builder)
         {
@@ -19,7 +19,7 @@ namespace Infra.Map
 
             builder.HasOne(a => a.User)
                 .WithOne(i => i.Address)
-                .HasForeignKey("UserId")
+                .HasForeignKey<Address>("UserId")
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.Property(a => a.Street)
