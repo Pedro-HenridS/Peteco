@@ -1,4 +1,5 @@
-﻿using Domain.Enum.Adoption;
+﻿using Domain.Entities.Animals;
+using Domain.Enum.Adoption;
 
 namespace Domain.Entities
 {
@@ -14,5 +15,7 @@ namespace Domain.Entities
         public DateTime UpdatedAt { get; set; }
 
         public Dog Animal { get; set; } = null!;
+        public User User { get; set; } = null!;
+        public InstitutionUser InstitutionUser { get; set; } = null!;
     }
 }

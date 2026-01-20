@@ -12,5 +12,6 @@ namespace Domain.Entities
 
         public Institution Institution { get; set; } = null!;
         public User User { get; set; } = null!;
+        public AdoptionRequest AdoptionRequest { get; set; } = null!;
     }
 }

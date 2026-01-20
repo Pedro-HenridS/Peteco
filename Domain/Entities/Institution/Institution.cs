@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Domain.Entities.Animals;
+using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Entities
 {
@@ -7,7 +8,7 @@ namespace Domain.Entities
         public Guid Id { get; set; }
         [MaxLength(50)]
         public string Name { get; set; } = string.Empty;
-        [MaxLength(15)]
+        [MaxLength(20)]
         public string Phone { get; set; } = string.Empty;
         [MaxLength(30)]
         public string Cnpj { get; set; } = string.Empty;

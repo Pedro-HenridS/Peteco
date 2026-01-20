@@ -9,17 +9,17 @@ namespace Domain.Entities
         public Guid UserId { get; set; }
         [MaxLength(100)]
         public string Street { get; set; } = string.Empty;
-        [MaxLength(10)]
+        [MaxLength(20)]
         public string Number { get; set; } = string.Empty;
         [MaxLength(25)]
         public string Complement { get; set; } = string.Empty;
         [MaxLength(100)]
         public string Neighborhood { get; set; } = string.Empty;
-        [MaxLength(50)]
+        [MaxLength(100)]
         public string City { get; set; } = string.Empty;
         [MaxLength(50)]
         public string State { get; set; } = string.Empty;
-        [MaxLength(20)]
+        [MaxLength(50)]
         public string ZipCode { get; set; } = string.Empty;
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }

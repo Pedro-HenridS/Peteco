@@ -1,12 +1,5 @@
-﻿using Domain.Entities.AdoptionRequest;
-using Domain.Entities.Address;
-using Domain.Entities.AnimalPhoto;
+﻿using Domain.Entities;
 using Domain.Entities.Animals;
-using Domain.Entities.AnimalVaccine;
-using Domain.Entities.Institution;
-using Domain.Entities.InstitutionUser;
-using Domain.Entities.User;
-using Domain.Entities.Vaccine;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infra
@@ -24,6 +17,6 @@ namespace Infra
         public DbSet<InstitutionUser> InstitutionUser { get; set; }
         public DbSet<Vaccine> Vaccine { get; set; }
         public DbSet<Institution> Institution { get; set; }
-        public DbSet<Adress> Adress { get; set; }
+        public DbSet<Address> Adress { get; set; }
     }
 }

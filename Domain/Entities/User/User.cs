@@ -8,10 +8,10 @@ namespace Domain.Entities
         public Guid Id { get; set; }
         [MaxLength(30)]
         public string Username { get; set; } = string.Empty;
-        [MaxLength(50)]
+        [MaxLength(100)]
         public string Email { get; set; } = string.Empty;
         public string PasswordHash { get; set; } = string.Empty;
-        [MaxLength(15)]
+        [MaxLength(20)]
         public string Phone { get; set; } = string.Empty;
         public Role Role { get; set; }
         public bool IsActive { get; set; }
