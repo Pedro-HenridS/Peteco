@@ -1,9 +1,16 @@
-﻿using Infra;
+﻿using Domain.Dtos.Requests.CreateUser;
+using FluentValidation;
+using FluentValidation.AspNetCore;
+using Infra;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddValidatorsFromAssemblyContaining<CreateUserRequest>();
+
+
 builder.Services.AddControllers();
+builder.Services.AddFluentValidationAutoValidation();
 
 var connectionString = builder.Configuration.GetConnectionString("Default");
 
