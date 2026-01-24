@@ -1,67 +1,45 @@
-﻿using Domain.Contracts.Repository.UserRepository;
+﻿using Domain.Contracts.Repository.AddressRepository;
+using Domain.Contracts.Repository.UserRepository;
+using Domain.Contracts.Services;
 using Domain.Dtos.Requests.CreateUser;
-using Infra;
+using FluentValidation;
 
 namespace Application.Services.User
 {
-    public class UserService : IUserRepository
+    public class UserService : IUserService
     {
 
-        private readonly AppDbContext _db;
+        private readonly IUserRepository _userRepository;
+        private readonly IAddressRepository _addressRepository;
+        private readonly IValidator<CreateUserRequest> _validator;
 
-        public UserService(AppDbContext db)
+        public UserService(
+            IUserRepository userRepository,
+            IAddressRepository addressRepository,
+            IValidator<CreateUserRequest> validator)
         {
-            _db = db;
+            _userRepository = userRepository;
+            _addressRepository = addressRepository;
+            _validator = validator;
         }
 
-        public Task<bool> EmailAlreadyExist(string email)
+        public async Task CreateUserRotine(CreateUserRequest request)
         {
+            var result = await _validator.ValidateAsync(request);
 
-            bool fetch;
-
-            try
+            if (!result.IsValid)
             {
-                fetch = _db.Users.Any(u => u.Email == email);
-            }
-            catch (Exception)
-            {
-                Console.WriteLine("Error fetching user by email.");
-                fetch = false;
+                var errors = result.Errors.Select(e => e.ErrorMessage).ToList();
+                throw new ValidationException("[Validation failed] | ", result.Errors);
             }
 
-            return Task.FromResult(fetch);
+            Guid addressId = await _addressRepository.CreateAddressReturnId(request.Address);
 
-            throw new NotImplementedException();
-        }
+            request.Address.Id = addressId;
 
-        public Task CreateUser(CreateUserRequest user)
-        {
-            try
-            {
-                Domain.Entities.User dbUser = new()
-                {
-                    Id = new Guid(),
-                    Username = user.Username,
-                    Email = user.Email,
-                    PasswordHash = user.Password,
-                    Phone = user.Phone,
-                    FullName = user.FullName,
-                    Address = user,
-                    CreatedAt = DateTime.UtcNow,
-                    UpdatedAt = DateTime.UtcNow,
-
-                };
-
-                _db.Users.Add(user);
-
-            }
-            catch (Exception)
-            {
-                Console.WriteLine("Error creating user.");
-            }
+            await _userRepository.CreateUser(request);
 
 
-            throw new NotImplementedException();
         }
     }
 }
