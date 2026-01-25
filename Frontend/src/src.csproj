@@ -15,4 +15,10 @@
     <ProjectReference Include="..\..\Domain\Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Web\Components\Features\" />
+    <Folder Include="Web\Components\Shared\" />
+    <Folder Include="Web\Pages\" />
+  </ItemGroup>
+
 </Project>
