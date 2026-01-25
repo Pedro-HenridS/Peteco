@@ -5,8 +5,9 @@ namespace Domain.Contracts.Services
 {
     public interface IUserService
     {
-        public Task CreateUserRotine(CreateUserRequest request);
+        public Task CreateUser(CreateUserRequest request);
         public Task<Guid?> VerifyLogin(LoginRequest request);
         public Task<JwtTokenRequest> GetUserClaims(Guid? userId);
+        public Task<bool> EmailAlreadyExist(string email);
     }
 }

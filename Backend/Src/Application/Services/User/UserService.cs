@@ -28,10 +28,8 @@ namespace Application.Services.User
             _passwordHasher = passwordHasher;
         }
 
-        public async Task CreateUserRotine(CreateUserRequest request)
+        public async Task CreateUser(CreateUserRequest request)
         {
-
-            request.Password = _passwordHasher.Hash(request.Password);
 
             var user_id = await _userRepository.CreateUser(request);
 
@@ -85,6 +83,13 @@ namespace Application.Services.User
             }
 
             return await Task.FromResult(claims);
+        }
+
+        public async Task<bool> EmailAlreadyExist(string email)
+        {
+            var id = await _userRepository.GetIdByEmail(email);
+
+            return id is not null;
         }
     }
 }

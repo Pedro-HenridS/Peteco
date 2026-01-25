@@ -7,27 +7,30 @@ namespace Application.UseCases.CreateUser
     {
 
         private IUserService _userService;
-        public CreateUserUseCase(IUserService userService)
+        private IPasswordHasher _passwordHasher;
+
+        public CreateUserUseCase(
+            IUserService userService, IPasswordHasher passwordHasher)
         {
             _userService = userService;
+            _passwordHasher = passwordHasher;
         }
 
         public async Task Execute(CreateUserRequest request)
         {
             try
             {
-                await _userService.CreateUserRotine(request);
+                if (await _userService.EmailAlreadyExist(request.Email))
+                    return;
+
+                request.Password = _passwordHasher.Hash(request.Password);
+
+                await _userService.CreateUser(request);
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
             }
         }
-
-        // Verificar validade dos dados de lCogin
-        // Verificar se email já existe
-        // Salvar usuário no banco de dados
-        // Retornar resposta adequada
-
     }
 }
