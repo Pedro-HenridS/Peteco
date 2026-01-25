@@ -2,6 +2,7 @@
 using Domain.Contracts.Services;
 using Domain.Dtos.Requests.Login;
 
+
 namespace Application.UseCases.Login
 {
     public class LoginUseCase
@@ -33,7 +34,6 @@ namespace Application.UseCases.Login
 
             var jwtToken = _jwtProvider.GenerateToken(userClaims);
 
-            Console.WriteLine("Generated JWT Token: " + jwtToken);
 
             return jwtToken;
         }

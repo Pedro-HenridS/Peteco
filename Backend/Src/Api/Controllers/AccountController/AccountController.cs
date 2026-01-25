@@ -29,7 +29,6 @@ namespace Api.Controllers.AccountController
         {
             await _createUserUseCase.Execute(request);
 
-
             return Ok();
         }
 
@@ -39,8 +38,29 @@ namespace Api.Controllers.AccountController
         {
             var jwtToken = await _loginUseCase.Execute(request);
 
+            if (jwtToken is null)
+                throw new Exception("Invalid email or password.");
+
+            var cookieOptions = new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.Strict,
+                Expires = DateTime.UtcNow.AddHours(2),
+                Path = "/"
+            };
+
+            Response.Cookies.Append("access_token", jwtToken, cookieOptions);
 
             return Ok();
         }
+
+        [HttpPost("logout")]
+        public IActionResult Logout()
+        {
+            Response.Cookies.Delete("access_token");
+            return Ok();
+        }
+
     }
 }
