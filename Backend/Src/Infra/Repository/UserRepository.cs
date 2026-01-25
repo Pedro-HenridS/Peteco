@@ -2,6 +2,7 @@
 using Domain.Contracts.Repository.UserRepository;
 using Domain.Dtos.Requests.CreateUser;
 using Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infra.Repository
 {
@@ -62,6 +63,47 @@ namespace Infra.Repository
             }
 
             throw new NotImplementedException();
+        }
+
+        public async Task<Guid?> GetIdByEmail(string email)
+        {
+            try
+            {
+                var user = await _db.Users.FirstOrDefaultAsync(u => u.Email == email);
+                if (user != null)
+                {
+                    return user.Id;
+                }
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Error verifying email.");
+                throw new NotImplementedException();
+            }
+
+            return null;
+        }
+        public async Task<string?> GetPasswordByEmail(string email)
+        {
+            try
+            {
+                var user = await _db.Users.FirstOrDefaultAsync(u => u.Email == email);
+                if (user != null)
+                {
+                    return user.PasswordHash;
+                }
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Error verifying password.");
+                throw new NotImplementedException();
+            }
+
+            return null;
+        }
+        public async Task<User> GetUser(Guid userId)
+        {
+            return await _db.Users.FirstOrDefaultAsync(u => u.Id == userId) ?? new User();
         }
     }
 }

@@ -1,13 +1,16 @@
 ﻿using Application.Services.Password;
 using Application.Services.User;
 using Application.UseCases.CreateUser;
+using Application.UseCases.Login;
 using Application.Validators;
+using Domain.Contracts.Providers;
 using Domain.Contracts.Repository.AddressRepository;
 using Domain.Contracts.Repository.UserRepository;
 using Domain.Contracts.Services;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Infra;
+using Infra.Providers.JwtToken;
 using Infra.Repository;
 using Microsoft.EntityFrameworkCore;
 
@@ -26,9 +29,11 @@ builder.Services.AddScoped<IUserService, UserService>();
 
 //Services
 builder.Services.AddScoped<IPasswordHasher, BCryptPasswordHasher>();
+builder.Services.AddScoped<IJwtProvider, JwtProvider>();
 
 //Use Case
 builder.Services.AddScoped<CreateUserUseCase>();
+builder.Services.AddScoped<LoginUseCase>();
 
 //Repository
 builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -58,6 +63,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
