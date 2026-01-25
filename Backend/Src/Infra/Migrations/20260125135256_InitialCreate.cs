@@ -124,8 +124,8 @@ namespace Infra.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    InstitutionId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    UserId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    InstitutionId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
+                    UserId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
                     Street = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Number = table.Column<string>(type: "varchar(20)", maxLength: 20, nullable: false)

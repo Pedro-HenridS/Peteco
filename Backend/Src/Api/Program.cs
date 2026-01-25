@@ -1,8 +1,10 @@
-﻿using Application.Services.User;
+﻿using Application.Services.Password;
+using Application.Services.User;
+using Application.UseCases.CreateUser;
 using Application.Validators;
+using Domain.Contracts.Repository.AddressRepository;
 using Domain.Contracts.Repository.UserRepository;
 using Domain.Contracts.Services;
-using Domain.Dtos.Requests.CreateUser;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Infra;
@@ -10,8 +12,6 @@ using Infra.Repository;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
-
-builder.Services.AddValidatorsFromAssemblyContaining<CreateUserRequest>();
 
 
 builder.Services.AddControllers();
@@ -23,7 +23,16 @@ var connectionString = builder.Configuration.GetConnectionString("Default");
 builder.Services.AddValidatorsFromAssemblyContaining<CreateUserValidator>();
 
 builder.Services.AddScoped<IUserService, UserService>();
+
+//Services
+builder.Services.AddScoped<IPasswordHasher, BCryptPasswordHasher>();
+
+//Use Case
+builder.Services.AddScoped<CreateUserUseCase>();
+
+//Repository
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IAddressRepository, AddressRepository>();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseMySql(

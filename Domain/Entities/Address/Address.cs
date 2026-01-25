@@ -5,8 +5,8 @@ namespace Domain.Entities
     public class Address
     {
         public Guid Id { get; set; }
-        public Guid InstitutionId { get; set; }
-        public Guid UserId { get; set; }
+        public Guid? InstitutionId { get; set; }
+        public Guid? UserId { get; set; }
         [MaxLength(100)]
         public string Street { get; set; } = string.Empty;
         [MaxLength(20)]

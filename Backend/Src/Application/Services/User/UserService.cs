@@ -12,15 +12,18 @@ namespace Application.Services.User
         private readonly IUserRepository _userRepository;
         private readonly IAddressRepository _addressRepository;
         private readonly IValidator<CreateUserRequest> _validator;
+        private readonly IPasswordHasher _passwordHasher;
 
         public UserService(
             IUserRepository userRepository,
             IAddressRepository addressRepository,
-            IValidator<CreateUserRequest> validator)
+            IValidator<CreateUserRequest> validator,
+            IPasswordHasher passwordHasher)
         {
             _userRepository = userRepository;
             _addressRepository = addressRepository;
             _validator = validator;
+            _passwordHasher = passwordHasher;
         }
 
         public async Task CreateUserRotine(CreateUserRequest request)
@@ -33,11 +36,13 @@ namespace Application.Services.User
                 throw new ValidationException("[Validation failed] | ", result.Errors);
             }
 
-            Guid addressId = await _addressRepository.CreateAddressReturnId(request.Address);
+            request.Password = _passwordHasher.Hash(request.Password);
 
-            request.Address.Id = addressId;
+            var user_id = await _userRepository.CreateUser(request);
 
-            await _userRepository.CreateUser(request);
+            request.Address.UserId = user_id;
+
+            await _addressRepository.CreateAddress(request.Address);
 
 
         }

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infra.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260120013555_InitialCreate")]
+    [Migration("20260125135256_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -44,7 +44,7 @@ namespace Infra.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("date");
 
-                    b.Property<Guid>("InstitutionId")
+                    b.Property<Guid?>("InstitutionId")
                         .HasColumnType("char(36)");
 
                     b.Property<string>("Neighborhood")
@@ -70,7 +70,7 @@ namespace Infra.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("date");
 
-                    b.Property<Guid>("UserId")
+                    b.Property<Guid?>("UserId")
                         .HasColumnType("char(36)");
 
                     b.Property<string>("ZipCode")
@@ -408,14 +408,12 @@ namespace Infra.Migrations
                     b.HasOne("Domain.Entities.Institution", "Institution")
                         .WithMany("Address")
                         .HasForeignKey("InstitutionId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Domain.Entities.User", "User")
                         .WithOne("Address")
                         .HasForeignKey("Domain.Entities.Address", "UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Institution");
 

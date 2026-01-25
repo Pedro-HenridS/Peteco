@@ -15,11 +15,13 @@ namespace Infra.Map
             builder.HasOne(a => a.Institution)
                 .WithMany(i => i.Address)
                 .HasForeignKey(a => a.InstitutionId)
+                .IsRequired(false)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(a => a.User)
                 .WithOne(i => i.Address)
                 .HasForeignKey<Address>("UserId")
+                .IsRequired(false)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.Property(a => a.Street)

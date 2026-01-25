@@ -35,7 +35,7 @@ namespace Infra.Repository
             throw new NotImplementedException();
         }
 
-        public Task CreateUser(CreateUserRequest user, Ade)
+        public async Task<Guid> CreateUser(CreateUserRequest user)
         {
             try
             {
@@ -46,14 +46,15 @@ namespace Infra.Repository
                     Email = user.Email,
                     PasswordHash = user.Password,
                     Phone = user.Phone,
-                    Address = user.Address.Id,
                     FullName = user.FullName,
                     CreatedAt = DateTime.UtcNow,
                     UpdatedAt = DateTime.UtcNow
                 };
 
                 _db.Users.Add(dbUser);
-                _db.SaveChanges();
+                await _db.SaveChangesAsync();
+
+                return dbUser.Id;
             }
             catch (Exception)
             {

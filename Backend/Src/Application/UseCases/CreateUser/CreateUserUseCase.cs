@@ -14,7 +14,14 @@ namespace Application.UseCases.CreateUser
 
         public async Task Execute(CreateUserRequest request)
         {
-            await _userService.CreateUserRotine(request);
+            try
+            {
+                await _userService.CreateUserRotine(request);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
         }
 
         // Verificar validade dos dados de lCogin

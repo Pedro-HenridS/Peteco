@@ -4,7 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers.AccountController
 {
-    public class AccountController : Controller
+    [ApiController]
+    [Route("/[controller]")]
+    public class AccountController : ControllerBase
     {
 
         private CreateUserUseCase _createUserUseCase;
@@ -15,7 +17,7 @@ namespace Api.Controllers.AccountController
             _createUserUseCase = createUserUseCase;
         }
 
-        [Route("/login")]
+        [Route("/register")]
         [HttpPost]
         public async Task<IActionResult> CreateUser([FromBody] CreateUserRequest request)
         {

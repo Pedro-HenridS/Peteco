@@ -13,11 +13,13 @@ namespace Infra.Repository
             _db = db;
         }
 
-        public Task<Guid> CreateAddressReturnId(AddressRequest addressRequest)
+        public async Task CreateAddress(AddressRequest addressRequest)
         {
             var entity = new Address()
             {
                 Id = Guid.NewGuid(),
+                InstitutionId = addressRequest.InstitutionId,
+                UserId = addressRequest.UserId,
                 City = addressRequest.City,
                 Complement = addressRequest.Complement,
                 Neighborhood = addressRequest.Neighborhood,
@@ -32,48 +34,14 @@ namespace Infra.Repository
             try
             {
                 _db.Adress.Add(entity);
-                _db.SaveChanges();
+                await _db.SaveChangesAsync();
             }
             catch (Exception ex)
             {
                 throw new Exception("Error adding address entity to the database context", ex);
             }
 
-
-            return _db.SaveChangesAsync().ContinueWith(task => entity.Id);
-        }
-
-        public async Task SetForeignId(Guid foreignId, Guid addressId, int type)
-        {
-            if (type == 1)
-            {
-                try
-                {
-                    _db.Adress.Find(addressId).UserId = foreignId;
-                    _db.SaveChanges();
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception("Error setting UserId foreign key", ex);
-                }
-
-                return;
-            }
-
-            if (type == 2)
-            {
-                try
-                {
-                    _db.Adress.Find(addressId).InstitutionId = foreignId;
-                    _db.SaveChanges();
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception("Error setting InstitutionId foreign key", ex);
-                }
-
-                return;
-            }
+            await Task.CompletedTask;
         }
     }
 }
